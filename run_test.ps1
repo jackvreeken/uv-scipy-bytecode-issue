@@ -13,6 +13,9 @@ $outputFile = "build_digests_$BuildType.txt"
 # Create empty file (or clear existing one)
 "" | Out-File -FilePath $outputFile
 
+# Create builder
+docker buildx create --name mybuilder --driver docker-container --use
+
 # Create an array to store the digests
 $digests = @()
 
@@ -38,3 +41,5 @@ for ($i = 1; $i -le $BuildCount; $i++) {
 
 # Remove the final file write since we're writing incrementally now
 Write-Host "Complete! Results saved to $outputFile"
+
+docker buildx rm mybuilder
